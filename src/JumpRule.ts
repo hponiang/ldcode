@@ -2,17 +2,17 @@ import * as vscode from 'vscode';
 import * as path from 'path'; 
 import * as fs from 'fs';
 import { match } from 'assert';
+import phploader from './loadAliases/PhpLoader';
+import LoadAliases from './loadAliases/loadAliases';
 
 export default class JumpRule {
-    private _workspaceDir = vscode.workspace.rootPath;
     private documentUri;
-    private keyword;
-    private projectRootPath = vscode.workspace.workspaceFile;
+    private kw;
     private kwType;
     private uri="";
     constructor(document: vscode.TextDocument,kw:string,kwType:string) {
         this.documentUri = document.uri;
-        this.keyword = kw;
+        this.kw = kw;
         this.kwType = kwType;
         this.matchRule();
     }
@@ -20,7 +20,10 @@ export default class JumpRule {
      * 匹配 rule
     */
     private matchRule(){
-        
+        if(this.kwType === 'service' || this.kwType ==='dao'){
+            let loader:LoadAliases =new phploader(this.kw,this.kwType);
+            this.uri = loader.find();
+        }
     }
 
     /**
@@ -42,7 +45,7 @@ export default class JumpRule {
         if(this.uri !== ""){
             return vscode.Uri.file(this.uri);
         }else{
-            throw new Error(`kw:${this.keyword},kwtype:${this.kwType},没能正确匹配类型却还在请求匹配路径`);
+            throw new Error(`kw:${this.kw},kwtype:${this.kwType},没能正确匹配类型却还在请求匹配路径`);
         }
     }
 }
