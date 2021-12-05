@@ -44,7 +44,7 @@ import * as vscode from 'vscode';
  * @param position 光标所在的位置
  * @returns 匹配字符，末匹配中时返回""
  */
-export function getMathKeyword({ textLine, position }: { textLine: string; position: vscode.Position; }):{kwType:string,kw:string,kwRange: vscode.Range}{
+export function getMathKeyword({ textLine, position }: { textLine: string; position: vscode.Position; }):{kwType:string,kw:string}{
 
     function checkType(k:string){
         let type = "";
@@ -52,10 +52,13 @@ export function getMathKeyword({ textLine, position }: { textLine: string; posit
             return "service";
         }else if(/^(([a-zA-Z]*)\:([a-zA-Z]*)){1,2}Dao$/.test(k)){// 匹配Dao
             return "dao";
+        }else if(k.indexOf('html.twig')>0){
+            return "twig";
         }else{
             return "";
         } 
     }
+
     console.log("匹配到",textLine,"position:",position);
 
     let positionIndex = position.character;
@@ -71,11 +74,11 @@ export function getMathKeyword({ textLine, position }: { textLine: string; posit
             let keyword = textLine.slice(startIndex, endIndex);
             let type =  checkType(keyword);
             if(type){
-                // 光标匹配的关键字位置
-                range = new vscode.Range(position.line, startIndex, position.line, endIndex);
-                return {kwType:type,kw:keyword,kwRange:range};
+                // // 光标匹配的关键字位置
+                // range = new vscode.Range(position.line, startIndex, position.line, endIndex);
+                return {kwType:type,kw:keyword};
             }
         }
       }
-      return {kwType:"",kw:"",kwRange: range};
+      return {kwType:"",kw:""};
 }

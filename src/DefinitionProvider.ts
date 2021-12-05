@@ -11,7 +11,7 @@ export default class DefinitionProvider implements vscode.DefinitionProvider {
       // 当前行
       const textLine = document.lineAt(position);
 
-      let {kwType,kw,kwRange} = getMathKeyword({ textLine: textLine.text, position: position });
+      let {kwType,kw} = getMathKeyword({ textLine: textLine.text, position: position });
 
       if(kwType!== ""){
         let jumprule = new jumpRule(document,kw,kwType);
