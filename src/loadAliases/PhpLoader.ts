@@ -47,12 +47,12 @@ export default class PhpLoader extends LoadAliases{
     locationPath():string[]{
         let paths = [];
         // 为空时说明可能在vendor/codeages/biz-framework/src/ 或 src 下
-        if(this.namespace === ""){
+        if(this.namespace === "" || this.namespace === "CorporateTrainingBundle"){
             // 注意顺序很重要
-            paths.push("src/CustomBundle/Biz" ,"vendor/codeages/biz-framework/src","vendor/codeages/biz-item-bank/src","vendor/codeages/biz-order-pay/src","vendor/codeages/biz-rate-limiter/src","src/Biz");
+            paths.push("src/CustomBundle/Biz" ,"src/CorporateTrainingBundle/Biz","vendor/codeages/biz-framework/src","vendor/codeages/biz-item-bank/src","vendor/codeages/biz-order-pay/src","vendor/codeages/biz-rate-limiter/src","src/Biz");
         }else if(this.namespace === "CustomBundle"){
             paths.push("src/CustomBundle/Biz");
-        }else if('Plugin'.indexOf(this.namespace)){ // 插件目录 
+        }else if(this.namespace.indexOf('Plugin')>-1){ // 插件目录 
             paths.push("plugins/"+this.namespace+ "/Biz");
         }else{
             throw new Error(`无法解析namespace:${this.namespace}`);

@@ -13,12 +13,12 @@ export function activate(context: vscode.ExtensionContext) {
 	const registerDefinitionProvider = vscode.languages.registerDefinitionProvider({ scheme: 'file', pattern: '**/*.{php,ts}' }, new DefinitionProvider());
 	context.subscriptions.push(registerDefinitionProvider);
 
-	const hover = vscode.languages.registerHoverProvider("php", {
-		provideHover(doc: vscode.TextDocument) {
-		  return new vscode.Hover('悬停提示后续开发');
-		}
-	  });
-	  context.subscriptions.push(hover);
+	// const hover = vscode.languages.registerHoverProvider("php", {
+	// 	provideHover(doc: vscode.TextDocument) {
+	// 	  return new vscode.Hover('悬停提示后续开发');
+	// 	}
+	//   });
+	//   context.subscriptions.push(hover);
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
